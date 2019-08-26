@@ -7,6 +7,10 @@ import {
   Image,
   ActivityIndicator,
   Picker,
+  Text,
+  ImageBackground,
+  KeyboardAvoidingView,
+  TouchableOpacity,
 } from 'react-native';
 import Share from 'react-native-share';
 import {searchImages} from '../../Api/searchImages';
@@ -17,13 +21,19 @@ import {
   POSITIVE_QUOTES,
 } from '../../constants/image_categories';
 import Message from '../Message';
-
+import DropdownPicker from '../DropdownPicker';
+const background = require('../../../public/images/background.jpg');
 const parentStyle = StyleSheet.create({
   container: {
-    padding: 10,
+    flex: 1,
+  },
+  element: {
+    marginTop: 20,
+  },
+  inner: {
+    padding: 24,
     flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    height: '100%',
+    justifyContent: 'flex-end',
   },
   loader: {
     padding: 10,
@@ -45,25 +55,17 @@ class MainPage extends React.Component {
       images: [],
       isLoading: true,
       currentCategory: GOOD_MORNING,
+      categories: [GOOD_MORNING, BIRTHDAY, POSITIVE_QUOTES],
     };
   }
 
-  async componentDidMount() {
-    const data = await searchImages(this.state.currentCategory);
-    const uri = data[Math.floor(Math.random() * data.length)].urls.raw;
-    const imageBlob = await getBlobForImage(uri);
-
-    this.setState({
-      images: data,
-      uri: uri,
-      imageBlob: 'data:image/jpeg;base64,' + imageBlob,
-      isLoading: false,
-    });
+  componentDidMount() {
+    this.fetchData(this.state.currentCategory);
   }
 
   fetchData = async newCategory => {
     const data = await searchImages(newCategory);
-    const uri = data[Math.floor(Math.random() * data.length)].urls.raw;
+    const uri = data[Math.floor(Math.random() * data.length)].urls.small;
     const imageBlob = await getBlobForImage(uri);
 
     this.setState({
@@ -107,24 +109,59 @@ class MainPage extends React.Component {
       );
     }
     return (
-      <View style={parentStyle.container}>
-        <Picker
-          selectedValue={this.state.currentCategory}
-          style={{height: 50, width: 200, alignSelf: 'center'}}
-          onValueChange={itemValue => {
-            this.setCurrentCategory(itemValue);
-          }}>
-          <Picker.Item label="Good Morning" value={GOOD_MORNING} />
-          <Picker.Item label="Birthday" value={BIRTHDAY} />
-          <Picker.Item label="Positive Quotes" value={POSITIVE_QUOTES} />
-        </Picker>
-        <Image
-          source={{uri: this.state.imageBlob}}
-          style={{width: 200, height: 200, alignSelf: 'center'}}
-        />
-        <Message message={this.state.message} setMessage={this.setMessage} />
-        <Button title="Share" onPress={this.shareMessage} />
-      </View>
+      <ImageBackground
+        source={background}
+        style={{width: '100%', height: '100%'}}>
+        <KeyboardAvoidingView
+          behavior="padding"
+          style={{flex: 1}}
+          keyboardVerticalOffset={-500}>
+          <ScrollView style={parentStyle.container}>
+            <View style={parentStyle.inner}>
+              <DropdownPicker
+                options={this.state.categories}
+                defaultValue={this.state.currentCategory}
+                setCurrentCategory={this.setCurrentCategory}
+              />
+              <Image
+                source={{uri: this.state.imageBlob}}
+                style={{
+                  width: 200,
+                  height: 200,
+                  alignSelf: 'center',
+                  marginTop: 20,
+                }}
+              />
+              <Message
+                message={this.state.message}
+                setMessage={this.setMessage}
+              />
+              <View style={{marginTop: 20, alignSelf: 'center'}}>
+                <TouchableOpacity onPress={this.shareMessage}>
+                  <View
+                    style={{
+                      width: 200,
+                      height: 40,
+                      borderRadius: 10,
+                      backgroundColor: 'orange',
+                    }}>
+                    <Text
+                      style={{
+                        color: 'white',
+                        fontWeight: 'bold',
+                        fontSize: 16,
+                        marginLeft: 100,
+                        marginRight: 100,
+                      }}>
+                      Share
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </ImageBackground>
     );
   }
 }

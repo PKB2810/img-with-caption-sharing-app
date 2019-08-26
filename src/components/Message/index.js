@@ -7,12 +7,14 @@ const parentStyle = StyleSheet.create({
     flexDirection: 'row',
     alignSelf: 'center',
     justifyContent: 'space-between',
+    marginTop: 20,
   },
   textboxStyle: {
-    width: 100,
-    height: 40,
+    width: 200,
+    height: 100,
     borderColor: 'gray',
     borderWidth: 1,
+    backgroundColor: '#ffffff',
   },
 });
 class Message extends React.Component {
@@ -23,8 +25,8 @@ class Message extends React.Component {
   render() {
     return (
       <View style={parentStyle.container}>
-        <Text>Message:</Text>
         <TextInput
+          placeholder="Type your message"
           style={parentStyle.textboxStyle}
           value={this.props.message}
           onChangeText={text => this.props.setMessage(text)}
