@@ -27,9 +27,10 @@ target 'spotMe' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  pod 'react-native-fetch-blob', :path => '../node_modules/react-native-fetch-blob'
 
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
+  pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
 
   target 'spotMeTests' do
     inherit! :search_paths

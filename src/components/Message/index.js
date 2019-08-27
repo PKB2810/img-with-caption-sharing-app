@@ -6,15 +6,18 @@ const parentStyle = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignSelf: 'center',
-    justifyContent: 'space-between',
-    marginTop: 20,
+    marginTop: Platform.OS === 'android' ? 20 : 80,
   },
   textboxStyle: {
     width: 200,
     maxHeight: 90,
     overflow: 'scroll',
-    borderColor: 'gray',
     borderWidth: 1,
+    borderBottomColor: '#000000',
+    borderTopColor: '#000000',
+    borderLeftColor: '#000000',
+    borderRightColor: '#000000',
+    borderStyle: 'solid',
     backgroundColor: '#ffffff',
   },
 });
@@ -25,15 +28,13 @@ class Message extends React.Component {
 
   render() {
     return (
-      <View style={parentStyle.container}>
-        <TextInput
-          placeholder="Type your message"
-          style={parentStyle.textboxStyle}
-          value={this.props.message}
-          onChangeText={text => this.props.setMessage(text)}
-          multiline={true}
-        />
-      </View>
+      <TextInput
+        placeholder="Type your message"
+        style={parentStyle.textboxStyle}
+        value={this.props.message}
+        onChangeText={text => this.props.setMessage(text)}
+        multiline={true}
+      />
     );
   }
 }

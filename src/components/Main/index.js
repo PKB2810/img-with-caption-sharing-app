@@ -1,19 +1,15 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
   View,
   StyleSheet,
-  Button,
   ScrollView,
   Image,
   ActivityIndicator,
-  Picker,
-  Text,
   ImageBackground,
   KeyboardAvoidingView,
-  TouchableOpacity,
 } from 'react-native';
+import ShareButton from '../ShareButton';
 import Share from 'react-native-share';
-import SvgUri from 'react-native-svg-uri';
 import {searchImages} from '../../Api/searchImages';
 import {getBlobForImage} from '../../Api/getBlobForImage';
 import {
@@ -23,8 +19,9 @@ import {
 } from '../../constants/image_categories';
 import Message from '../Message';
 import DropdownPicker from '../DropdownPicker';
+
 const background = require('../../../public/images/background.jpg');
-const shareIcon = require('../../../public/images/share.svg');
+
 const parentStyle = StyleSheet.create({
   container: {
     flex: 1,
@@ -89,6 +86,7 @@ class MainPage extends React.Component {
     this.setState({message: message});
   };
   setCurrentCategory = newCategory => {
+    if (newCategory === this.state.currentCategory) return;
     this.setState({currentCategory: newCategory, isLoading: true});
     this.fetchData(newCategory);
   };
@@ -117,50 +115,49 @@ class MainPage extends React.Component {
         <KeyboardAvoidingView
           behavior="padding"
           style={{flex: 1}}
-          keyboardVerticalOffset={-500}>
+          keyboardVerticalOffset={Platform.OS === 'android' ? -500 : 0}>
           <ScrollView style={parentStyle.container}>
             <View style={parentStyle.inner}>
-              <DropdownPicker
-                options={this.state.categories}
-                defaultValue={this.state.currentCategory}
-                setCurrentCategory={this.setCurrentCategory}
-              />
+              <View style={{marginTop: Platform.OS === 'android' ? 20 : 80}}>
+                <DropdownPicker
+                  options={this.state.categories}
+                  defaultValue={this.state.currentCategory}
+                  setCurrentCategory={this.setCurrentCategory}
+                />
+              </View>
               <Image
                 source={{uri: this.state.imageBlob}}
                 style={{
                   width: 200,
                   height: 200,
                   alignSelf: 'center',
-                  marginTop: 20,
+                  borderWidth: 1,
+                  borderBottomColor: '#000000',
+                  borderTopColor: '#000000',
+                  borderLeftColor: '#000000',
+                  borderRightColor: '#000000',
+                  borderStyle: 'solid',
+                  marginTop: Platform.OS === 'android' ? 20 : 80,
                 }}
               />
-              <Message
-                message={this.state.message}
-                setMessage={this.setMessage}
-              />
-              <View style={{marginTop: 20, alignSelf: 'center'}}>
-                <TouchableOpacity onPress={this.shareMessage}>
-                  <View
-                    style={{
-                      width: 200,
-                      height: 40,
-                      borderRadius: 20,
-                      backgroundColor: 'orange',
-                      flexDirection: 'row',
-                      justifyContent: 'space-evenly',
-                      alignItems: 'center',
-                    }}>
-                    <SvgUri width="30" height="30" source={shareIcon} />
-                    <Text
-                      style={{
-                        color: 'white',
-                        fontWeight: 'bold',
-                        fontSize: 16,
-                      }}>
-                      Share
-                    </Text>
-                  </View>
-                </TouchableOpacity>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignSelf: 'center',
+                  marginTop: Platform.OS === 'android' ? 40 : 80,
+                }}>
+                <Message
+                  message={this.state.message}
+                  setMessage={this.setMessage}
+                />
+              </View>
+              <View
+                style={{
+                  alignSelf: 'center',
+                  marginTop: Platform.OS === 'android' ? 60 : 80,
+                }}>
+                <ShareButton shareMessage={this.shareMessage} />
               </View>
             </View>
           </ScrollView>

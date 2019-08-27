@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, Platform} from 'react-native';
 import {CustomPicker} from 'react-native-custom-picker';
 import SvgUri from 'react-native-svg-uri';
 
@@ -9,11 +9,16 @@ const styles = StyleSheet.create({
     height: 50,
     width: 200,
     alignSelf: 'center',
-    marginTop: 20,
+    marginTop: Platform.OS === 'android' ? 20 : 80,
   },
   container: {
     borderColor: 'grey',
     borderWidth: 1,
+    borderBottomColor: '#000000',
+    borderTopColor: '#000000',
+    borderLeftColor: '#000000',
+    borderRightColor: '#000000',
+    borderStyle: 'solid',
   },
   innerContainer: {
     flexDirection: 'row',
