@@ -11,7 +11,8 @@ const parentStyle = StyleSheet.create({
   },
   textboxStyle: {
     width: 200,
-    height: 100,
+    maxHeight: 90,
+    overflow: 'scroll',
     borderColor: 'gray',
     borderWidth: 1,
     backgroundColor: '#ffffff',
@@ -31,7 +32,6 @@ class Message extends React.Component {
           value={this.props.message}
           onChangeText={text => this.props.setMessage(text)}
           multiline={true}
-          numberOfLines={10}
         />
       </View>
     );

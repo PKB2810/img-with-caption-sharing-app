@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Share from 'react-native-share';
+import SvgUri from 'react-native-svg-uri';
 import {searchImages} from '../../Api/searchImages';
 import {getBlobForImage} from '../../Api/getBlobForImage';
 import {
@@ -23,6 +24,7 @@ import {
 import Message from '../Message';
 import DropdownPicker from '../DropdownPicker';
 const background = require('../../../public/images/background.jpg');
+const shareIcon = require('../../../public/images/share.svg');
 const parentStyle = StyleSheet.create({
   container: {
     flex: 1,
@@ -142,16 +144,18 @@ class MainPage extends React.Component {
                     style={{
                       width: 200,
                       height: 40,
-                      borderRadius: 10,
+                      borderRadius: 20,
                       backgroundColor: 'orange',
+                      flexDirection: 'row',
+                      justifyContent: 'space-evenly',
+                      alignItems: 'center',
                     }}>
+                    <SvgUri width="30" height="30" source={shareIcon} />
                     <Text
                       style={{
                         color: 'white',
                         fontWeight: 'bold',
                         fontSize: 16,
-                        marginLeft: 100,
-                        marginRight: 100,
                       }}>
                       Share
                     </Text>

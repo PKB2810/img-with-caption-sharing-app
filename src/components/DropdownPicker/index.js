@@ -1,7 +1,9 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {CustomPicker, View, Text} from 'react-native-custom-picker';
+import {StyleSheet, View, Text} from 'react-native';
+import {CustomPicker} from 'react-native-custom-picker';
+import SvgUri from 'react-native-svg-uri';
 
+const downArrow = require('../../../public/images/down-arrow.svg');
 const styles = StyleSheet.create({
   ddstyle: {
     height: 50,
@@ -12,14 +14,14 @@ const styles = StyleSheet.create({
   container: {
     borderColor: 'grey',
     borderWidth: 1,
-    padding: 15,
   },
   innerContainer: {
     flexDirection: 'row',
-    alignItems: 'stretch',
+    justifyContent: 'space-evenly',
+    backgroundColor: '#ffffff',
   },
   text: {
-    fontSize: 18,
+    fontSize: 16,
   },
 });
 class DropdownPicker extends React.Component {
@@ -27,18 +29,14 @@ class DropdownPicker extends React.Component {
     super(props);
   }
   renderField = settings => {
-    const {selectedItem, defaultText} = settings;
-    console.log(selectedItem);
+    const {selectedItem, defaultText, getLabel} = settings;
 
     return (
       <View style={styles.container}>
-        {/* <View>
-          {selectedItem ? (
-            <View style={styles.innerContainer}>
-              <Text style={styles.text}>{selectedItem}</Text>
-            </View>
-          ) : null}
-        </View> */}
+        <View style={styles.innerContainer}>
+          <Text style={styles.text}>{selectedItem}</Text>
+          <SvgUri width="10" height="20" source={downArrow} />
+        </View>
       </View>
     );
   };

@@ -29,6 +29,8 @@ target 'spotMe' do
 
   pod 'react-native-fetch-blob', :path => '../node_modules/react-native-fetch-blob'
 
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
   target 'spotMeTests' do
     inherit! :search_paths
     # Pods for testing
