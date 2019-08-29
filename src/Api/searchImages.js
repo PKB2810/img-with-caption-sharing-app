@@ -2,7 +2,7 @@ import {BASE_URL} from '../constants/url';
 import {CLIENT_ID} from '../constants/clientId';
 const SEARCH_PHOTOS = '/search/photos/';
 
-export const searchImages = async searchParameter => {
+export const searchImages = async (searchParameter, page = 1) => {
   try {
     const uri =
       BASE_URL +
@@ -11,7 +11,9 @@ export const searchImages = async searchParameter => {
       'client_id=' +
       CLIENT_ID +
       '&query=' +
-      searchParameter;
+      searchParameter +
+      '&page=' +
+      page;
     const response = await fetch(uri);
     const data = await response.json();
     return data.results;

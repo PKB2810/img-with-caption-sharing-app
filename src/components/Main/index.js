@@ -7,18 +7,20 @@ import {
   ActivityIndicator,
   ImageBackground,
   KeyboardAvoidingView,
+  TouchableOpacity,
 } from 'react-native';
 import ShareButton from '../ShareButton';
 import Share from 'react-native-share';
-import {searchImages} from '../../Api/searchImages';
-import {getBlobForImage} from '../../Api/getBlobForImage';
-import {
-  GOOD_MORNING,
-  BIRTHDAY,
-  POSITIVE_QUOTES,
-} from '../../constants/image_categories';
 import Message from '../Message';
 import DropdownPicker from '../DropdownPicker';
+import {connect} from 'react-redux';
+import {Navigation} from 'react-native-navigation';
+import {
+  setMessage,
+  setCurrentCategory,
+  setEmptyImages,
+} from '../../redux/actionCreators';
+import {fetchImages} from '../../redux/fetchImages';
 
 const background = require('../../../public/images/background.jpg');
 
@@ -42,66 +44,62 @@ const parentStyle = StyleSheet.create({
   },
 });
 
+mapStateToProps = state => {
+  return {
+    uri: state.uri,
+    imageBlob: state.imageBlob,
+    images: state.images,
+    isLoading: state.isLoading,
+    currentCategory: state.currentCategory,
+    categories: state.categories,
+  };
+};
+
+mapDispatchToProps = dispatch => {
+  return {
+    setMessage: message => dispatch(setMessage(message)),
+    setCurrentCategory: category => dispatch(setCurrentCategory(category)),
+    fetchImages: category => dispatch(fetchImages(category)),
+    setEmptyImages: () => dispatch(setEmptyImages()),
+  };
+};
 class MainPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: '',
-      subject: '',
-      message: '',
-      uri: '',
-      imageBlob: '',
-      images: [],
-      isLoading: true,
-      currentCategory: GOOD_MORNING,
-      categories: [GOOD_MORNING, BIRTHDAY, POSITIVE_QUOTES],
-    };
   }
 
   componentDidMount() {
-    this.fetchData(this.state.currentCategory);
+    this.props.fetchImages(this.props.currentCategory);
   }
 
-  fetchData = async newCategory => {
-    const data = await searchImages(newCategory);
-    const uri = data[Math.floor(Math.random() * data.length)].urls.small;
-    const imageBlob = await getBlobForImage(uri);
-
-    this.setState({
-      images: data,
-      uri: uri,
-      imageBlob: 'data:image/jpeg;base64,' + imageBlob,
-      isLoading: false,
-    });
-  };
-
-  setName = name => {
-    this.setState({name: name});
-  };
-  setSubject = subject => {
-    this.setState({subject: subject});
-  };
-
   setMessage = message => {
-    this.setState({message: message});
+    this.props.setMessage(message);
   };
   setCurrentCategory = newCategory => {
-    if (newCategory === this.state.currentCategory) return;
-    this.setState({currentCategory: newCategory, isLoading: true});
-    this.fetchData(newCategory);
+    if (newCategory === this.props.currentCategory) return;
+    this.props.setCurrentCategory(newCategory);
+    this.props.setEmptyImages();
+    this.props.fetchImages(newCategory);
+  };
+
+  navigateToImageList = () => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ImageList',
+      },
+    });
   };
 
   shareMessage = () => {
     Share.open({
-      message: this.state.message,
-      url: this.state.imageBlob,
-      title: this.state.subject,
+      message: this.props.message,
+      url: this.props.imageBlob,
     }).then(result => {
       console.log('result shared');
     });
   };
   render() {
-    if (this.state.isLoading) {
+    if (this.props.isLoading) {
       return (
         <View style={parentStyle.loader}>
           <ActivityIndicator size="large" color="#0000ff" />
@@ -120,26 +118,29 @@ class MainPage extends React.Component {
             <View style={parentStyle.inner}>
               <View style={{marginTop: Platform.OS === 'android' ? 20 : 80}}>
                 <DropdownPicker
-                  options={this.state.categories}
-                  defaultValue={this.state.currentCategory}
+                  options={this.props.categories}
+                  defaultValue={this.props.currentCategory}
                   setCurrentCategory={this.setCurrentCategory}
                 />
               </View>
-              <Image
-                source={{uri: this.state.imageBlob}}
-                style={{
-                  width: 200,
-                  height: 200,
-                  alignSelf: 'center',
-                  borderWidth: 1,
-                  borderBottomColor: '#000000',
-                  borderTopColor: '#000000',
-                  borderLeftColor: '#000000',
-                  borderRightColor: '#000000',
-                  borderStyle: 'solid',
-                  marginTop: Platform.OS === 'android' ? 20 : 80,
-                }}
-              />
+              <TouchableOpacity onPress={this.navigateToImageList}>
+                <Image
+                  source={{uri: this.props.imageBlob}}
+                  style={{
+                    width: 200,
+                    height: 200,
+                    alignSelf: 'center',
+                    borderWidth: 1,
+                    borderBottomColor: '#000000',
+                    borderTopColor: '#000000',
+                    borderLeftColor: '#000000',
+                    borderRightColor: '#000000',
+                    borderStyle: 'solid',
+                    marginTop: Platform.OS === 'android' ? 20 : 80,
+                  }}
+                />
+              </TouchableOpacity>
+
               <View
                 style={{
                   display: 'flex',
@@ -148,7 +149,7 @@ class MainPage extends React.Component {
                   marginTop: Platform.OS === 'android' ? 40 : 80,
                 }}>
                 <Message
-                  message={this.state.message}
+                  message={this.props.message}
                   setMessage={this.setMessage}
                 />
               </View>
@@ -166,4 +167,7 @@ class MainPage extends React.Component {
     );
   }
 }
-export default MainPage;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(MainPage);
