@@ -6,6 +6,8 @@ import {
   SET_MESSAGE,
   SET_CURRENT_IMG_BLOB,
   EMPTY_IMAGES,
+  SET_SELECTED_IMAGE,
+  GET_LAZYLOADED_IMAGES,
 } from '../redux/actionTypes';
 
 export const reducer = (state = initialState, action) => {
@@ -28,6 +30,12 @@ export const reducer = (state = initialState, action) => {
         uri: action.payload.uri,
         imageBlob: action.payload.imageBlob,
       };
+    case GET_LAZYLOADED_IMAGES:
+      return {
+        ...state,
+        images: state.images.concat(action.payload.images),
+        isLoading: action.payload.isLoading,
+      };
     case EMPTY_IMAGES:
       return {
         ...state,
@@ -42,6 +50,12 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         imageBlob: action.payload,
+      };
+
+    case SET_SELECTED_IMAGE:
+      return {
+        ...state,
+        uri: action.payload.urls.small,
       };
 
     default:

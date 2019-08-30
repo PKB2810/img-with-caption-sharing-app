@@ -79,6 +79,8 @@ PODS:
     - React-Core (= 0.60.5)
   - React-RCTWebSocket (0.60.5):
     - React-Core (= 0.60.5)
+  - ReactNativeNavigation (3.1.2):
+    - React
   - rn-fetch-blob (0.10.16):
     - React-Core
   - RNShare (2.0.0):
@@ -108,6 +110,7 @@ DEPENDENCIES:
   - React-RCTText (from `../node_modules/react-native/Libraries/Text`)
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-RCTWebSocket (from `../node_modules/react-native/Libraries/WebSocket`)
+  - ReactNativeNavigation (from `../node_modules/react-native-navigation`)
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
   - RNShare (from `../node_modules/react-native-share`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -158,6 +161,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   React-RCTWebSocket:
     :path: "../node_modules/react-native/Libraries/WebSocket"
+  ReactNativeNavigation:
+    :path: "../node_modules/react-native-navigation"
   rn-fetch-blob:
     :path: "../node_modules/rn-fetch-blob"
   RNShare:
@@ -189,11 +194,12 @@ SPEC CHECKSUMS:
   React-RCTText: b074d89033583d4f2eb5faf7ea2db3a13c7553a2
   React-RCTVibration: 2105b2e0e2b66a6408fc69a46c8a7fb5b2fdade0
   React-RCTWebSocket: cd932a16b7214898b6b7f788c8bddb3637246ac4
+  ReactNativeNavigation: 86a76f888e7e3c42c1b6eaee634142baab6420eb
   rn-fetch-blob: 651b8d076b43d0d7aa294a3d9ec16c00aab8bef9
   RNShare: 8b171d4b43c1d886917fdd303bf7a4b87167b05c
   RNSVG: 9e444e5236161d3574ac834d683f83c845d02525
   yoga: 312528f5bbbba37b4dcea5ef00e8b4033fdd9411
 
-PODFILE CHECKSUM: aac25a90c0769961327fe9b0a2e6d85dbc893b47
+PODFILE CHECKSUM: 64ca2358291949f4109fcc778bb968c6720b9eff
 
 COCOAPODS: 1.7.5

@@ -18,7 +18,7 @@ import {Navigation} from 'react-native-navigation';
 import {
   setMessage,
   setCurrentCategory,
-  setEmptyImages,
+  emptyImages,
 } from '../../redux/actionCreators';
 import {fetchImages} from '../../redux/fetchImages';
 
@@ -60,7 +60,7 @@ mapDispatchToProps = dispatch => {
     setMessage: message => dispatch(setMessage(message)),
     setCurrentCategory: category => dispatch(setCurrentCategory(category)),
     fetchImages: category => dispatch(fetchImages(category)),
-    setEmptyImages: () => dispatch(setEmptyImages()),
+    emptyImages: () => dispatch(emptyImages()),
   };
 };
 class MainPage extends React.Component {
@@ -78,7 +78,7 @@ class MainPage extends React.Component {
   setCurrentCategory = newCategory => {
     if (newCategory === this.props.currentCategory) return;
     this.props.setCurrentCategory(newCategory);
-    this.props.setEmptyImages();
+    this.props.emptyImages();
     this.props.fetchImages(newCategory);
   };
 
@@ -125,7 +125,7 @@ class MainPage extends React.Component {
               </View>
               <TouchableOpacity onPress={this.navigateToImageList}>
                 <Image
-                  source={{uri: this.props.imageBlob}}
+                  source={{uri: this.props.uri}}
                   style={{
                     width: 200,
                     height: 200,

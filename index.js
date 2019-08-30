@@ -36,11 +36,11 @@ Navigation.registerComponentWithRedux(
   store,
 );
 
-Navigation.events().registerAppLaunchedListener(() => {
-  Navigation.setRoot({
+Navigation.events().registerAppLaunchedListener(async () => {
+  await Navigation.setRoot({
     root: {
       stack: {
-        id: 'App',
+        id: 'MainPage',
         children: [
           {
             component: {

@@ -5,6 +5,7 @@ import {
 } from '../constants/image_categories';
 
 export const initialState = {
+  id: null,
   name: '',
   subject: '',
   message: '',
