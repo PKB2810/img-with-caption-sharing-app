@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, TouchableOpacity, View} from 'react-native';
+import {Image, TouchableOpacity, View, Platform} from 'react-native';
 import {Navigation} from 'react-native-navigation';
 
 class SelectableImage extends React.Component {

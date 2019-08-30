@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import SelectableImage from '../SelectableImage';
 import {connect} from 'react-redux';
@@ -65,14 +66,12 @@ class ImageList extends React.Component {
         source={background}
         style={{width: '100%', height: '100%'}}>
         <FlatList
-          contentContainerStyle={{
+          columnWrapperStyle={{
             marginLeft: 20,
             marginRight: 20,
-            flexDirection: 'column',
-            marginBottom: 20,
           }}
           data={this.props.images}
-          numColumns={3}
+          numColumns={2}
           horizontal={false}
           keyExtractor={item => item.id}
           renderItem={this.renderItem}
