@@ -1,3 +1,8 @@
+/* eslint-disable no-console */
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
+/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import {
   View,
@@ -9,18 +14,18 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
 } from 'react-native';
-import ShareButton from '../ShareButton';
 import Share from 'react-native-share';
+import { connect } from 'react-redux';
+import { Navigation } from 'react-native-navigation';
+import ShareButton from '../ShareButton';
 import Message from '../Message';
 import DropdownPicker from '../DropdownPicker';
-import {connect} from 'react-redux';
-import {Navigation} from 'react-native-navigation';
 import {
   setMessage,
   setCurrentCategory,
   emptyImages,
 } from '../../redux/actionCreators';
-import {fetchImages} from '../../redux/fetchImages';
+import { fetchImages } from '../../redux/fetchImages';
 
 const background = require('../../../public/images/background.jpg');
 
@@ -44,38 +49,31 @@ const parentStyle = StyleSheet.create({
   },
 });
 
-mapStateToProps = state => {
-  return {
-    uri: state.uri,
-    imageBlob: state.imageBlob,
-    images: state.images,
-    isLoading: state.isLoading,
-    currentCategory: state.currentCategory,
-    categories: state.categories,
-  };
-};
+const mapStateToProps = (state) => ({
+  uri: state.uri,
+  imageBlob: state.imageBlob,
+  images: state.images,
+  isLoading: state.isLoading,
+  currentCategory: state.currentCategory,
+  categories: state.categories,
+});
 
-mapDispatchToProps = dispatch => {
-  return {
-    setMessage: message => dispatch(setMessage(message)),
-    setCurrentCategory: category => dispatch(setCurrentCategory(category)),
-    fetchImages: category => dispatch(fetchImages(category)),
-    emptyImages: () => dispatch(emptyImages()),
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  setMessage: (message) => dispatch(setMessage(message)),
+  setCurrentCategory: (category) => dispatch(setCurrentCategory(category)),
+  fetchImages: (category) => dispatch(fetchImages(category)),
+  emptyImages: () => dispatch(emptyImages()),
+});
 class MainPage extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     this.props.fetchImages(this.props.currentCategory);
   }
 
-  setMessage = message => {
+  setMessage = (message) => {
     this.props.setMessage(message);
   };
-  setCurrentCategory = newCategory => {
+
+  setCurrentCategory = (newCategory) => {
     if (newCategory === this.props.currentCategory) return;
     this.props.setCurrentCategory(newCategory);
     this.props.emptyImages();
@@ -94,10 +92,11 @@ class MainPage extends React.Component {
     Share.open({
       message: this.props.message,
       url: this.props.imageBlob,
-    }).then(result => {
+    }).then((_result) => {
       console.log('result shared');
     });
   };
+
   render() {
     if (this.props.isLoading) {
       return (
@@ -109,14 +108,16 @@ class MainPage extends React.Component {
     return (
       <ImageBackground
         source={background}
-        style={{width: '100%', height: '100%'}}>
+        style={{ width: '100%', height: '100%' }}
+      >
         <KeyboardAvoidingView
           behavior="padding"
-          style={{flex: 1}}
-          keyboardVerticalOffset={Platform.OS === 'android' ? -500 : 0}>
+          style={{ flex: 1 }}
+          keyboardVerticalOffset={Platform.OS === 'android' ? -500 : 0}
+        >
           <ScrollView style={parentStyle.container}>
             <View style={parentStyle.inner}>
-              <View style={{marginTop: Platform.OS === 'android' ? 20 : 80}}>
+              <View style={{ marginTop: Platform.OS === 'android' ? 20 : 80 }}>
                 <DropdownPicker
                   options={this.props.categories}
                   defaultValue={this.props.currentCategory}
@@ -125,7 +126,7 @@ class MainPage extends React.Component {
               </View>
               <TouchableOpacity onPress={this.navigateToImageList}>
                 <Image
-                  source={{uri: this.props.uri}}
+                  source={{ uri: this.props.uri }}
                   style={{
                     width: 200,
                     height: 200,
@@ -147,7 +148,8 @@ class MainPage extends React.Component {
                   flexDirection: 'row',
                   alignSelf: 'center',
                   marginTop: Platform.OS === 'android' ? 40 : 80,
-                }}>
+                }}
+              >
                 <Message
                   message={this.props.message}
                   setMessage={this.setMessage}
@@ -157,7 +159,8 @@ class MainPage extends React.Component {
                 style={{
                   alignSelf: 'center',
                   marginTop: Platform.OS === 'android' ? 60 : 80,
-                }}>
+                }}
+              >
                 <ShareButton shareMessage={this.shareMessage} />
               </View>
             </View>

@@ -1,4 +1,5 @@
-import {initialState} from '../redux/initialState';
+/* eslint-disable import/prefer-default-export */
+import { initialState } from './initialState';
 import {
   GET_IMAGES,
   GETTING_IMAGES,
@@ -8,7 +9,7 @@ import {
   EMPTY_IMAGES,
   SET_SELECTED_IMAGE,
   GET_LAZYLOADED_IMAGES,
-} from '../redux/actionTypes';
+} from './actionTypes';
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {

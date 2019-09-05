@@ -1,5 +1,7 @@
-import React, {Component} from 'react';
-import {View, Text, TextInput, StyleSheet} from 'react-native';
+import React from 'react';
+import {
+  View, Text, TextInput, StyleSheet,
+} from 'react-native';
 
 const parentStyle = StyleSheet.create({
   container: {
@@ -13,21 +15,20 @@ const parentStyle = StyleSheet.create({
     borderWidth: 1,
   },
 });
-class Subject extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const  Subject = ({setSubject,subject}) => {
+  
 
-  render() {
+  
     return (
       <View style={parentStyle.container}>
         <Text>Subject:</Text>
         <TextInput
           style={parentStyle.textboxStyle}
-          value={this.props.subject}
-          onChangeText={text => this.props.setSubject(text)}></TextInput>
+          value={subject}
+          onChangeText={(text) => setSubject(text)}
+         />
       </View>
     );
   }
-}
+
 export default Subject;

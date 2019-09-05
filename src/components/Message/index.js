@@ -1,5 +1,11 @@
-import React, {Component} from 'react';
-import {View, Text, TextInput, StyleSheet} from 'react-native';
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prefer-stateless-function */
+/* eslint-disable react/prop-types */
+/* eslint-disable no-undef */
+import React from 'react';
+import {
+  TextInput, StyleSheet,
+} from 'react-native';
 
 const parentStyle = StyleSheet.create({
   container: {
@@ -21,21 +27,14 @@ const parentStyle = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
 });
-class Message extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const Message = ({ message, setMessage }) => (
+  <TextInput
+    placeholder="Type your message"
+    style={parentStyle.textboxStyle}
+    value={message}
+    onChangeText={(text) => setMessage(text)}
+    multiline
+  />
+);
 
-  render() {
-    return (
-      <TextInput
-        placeholder="Type your message"
-        style={parentStyle.textboxStyle}
-        value={this.props.message}
-        onChangeText={text => this.props.setMessage(text)}
-        multiline={true}
-      />
-    );
-  }
-}
 export default Message;

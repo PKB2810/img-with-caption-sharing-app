@@ -1,10 +1,11 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import SvgUri from 'react-native-svg-uri';
 
 const shareIcon = require('../../../public/images/share.svg');
-class ShareButton extends React.Component {
-  render() {
+
+const ShareButton= (props) => {
+  
     return (
       <TouchableOpacity onPress={this.props.shareMessage}>
         <View
@@ -22,20 +23,22 @@ class ShareButton extends React.Component {
             flexDirection: 'row',
             justifyContent: 'space-evenly',
             alignItems: 'center',
-          }}>
+          }}
+        >
           <SvgUri width="30" height="30" source={shareIcon} />
           <Text
             style={{
               color: '#000000',
               fontWeight: 'bold',
               fontSize: 16,
-            }}>
+            }}
+          >
             Share
           </Text>
         </View>
       </TouchableOpacity>
     );
   }
-}
+
 
 export default ShareButton;
