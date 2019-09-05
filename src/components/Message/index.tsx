@@ -4,9 +4,13 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import {
-  TextInput, StyleSheet,
+  TextInput, StyleSheet, Platform,
 } from 'react-native';
 
+export interface Props{
+  message:string,
+  setMessage: (value:string) =>void
+}
 const parentStyle = StyleSheet.create({
   container: {
     display: 'flex',
@@ -27,7 +31,7 @@ const parentStyle = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
 });
-const Message = ({ message, setMessage }) => (
+const Message = ({ message, setMessage }:Props) => (
   <TextInput
     placeholder="Type your message"
     style={parentStyle.textboxStyle}

@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
-import React from 'react';
+import React, { Dispatch } from 'react';
 import {
   View,
   StyleSheet,
@@ -13,9 +13,11 @@ import {
   ImageBackground,
   KeyboardAvoidingView,
   TouchableOpacity,
+  Platform
 } from 'react-native';
 import Share from 'react-native-share';
-import { connect } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
+import {InitialState} from '../../redux/initialState'
 import { Navigation } from 'react-native-navigation';
 import ShareButton from '../ShareButton';
 import Message from '../Message';
@@ -23,12 +25,33 @@ import DropdownPicker from '../DropdownPicker';
 import {
   setMessage,
   setCurrentCategory,
-  emptyImages,
+  emptyImages
 } from '../../redux/actionCreators';
 import { fetchImages } from '../../redux/fetchImages';
 
+
 const background = require('../../../public/images/background.jpg');
 
+export interface OwnProps{
+  componentId?:any
+}
+export interface IMainStateToProps{
+  uri: string,
+  imageBlob: string,
+  images: any[],
+  isLoading: boolean,
+  message:string,
+  currentCategory: string,
+  categories: string[],
+}
+
+export interface DispatchToProps{
+  setMessage: (message:string) => void,
+  setCurrentCategory: (category:string) => void,
+  fetchImages: (category:string) => void,
+  emptyImages: () => void,
+}
+type Props = IMainStateToProps & DispatchToProps & OwnProps
 const parentStyle = StyleSheet.create({
   container: {
     flex: 1,
@@ -49,31 +72,36 @@ const parentStyle = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:InitialState):IMainStateToProps => ({
   uri: state.uri,
   imageBlob: state.imageBlob,
   images: state.images,
   isLoading: state.isLoading,
+  message:state.message,
   currentCategory: state.currentCategory,
   categories: state.categories,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  setMessage: (message) => dispatch(setMessage(message)),
-  setCurrentCategory: (category) => dispatch(setCurrentCategory(category)),
-  fetchImages: (category) => dispatch(fetchImages(category)),
+const mapDispatchToProps = (dispatch:any):DispatchToProps => ({
+  setMessage: (message:string) => dispatch(setMessage(message)),
+  setCurrentCategory: (category:string) => dispatch(setCurrentCategory(category)),
+  fetchImages: (category:string) => dispatch(fetchImages(category)),
   emptyImages: () => dispatch(emptyImages()),
 });
-class MainPage extends React.Component {
+
+class MainPage extends React.Component<Props, {}> {
+  constructor(props:Props){
+    super(props);
+  }
   componentDidMount() {
     this.props.fetchImages(this.props.currentCategory);
   }
 
-  setMessage = (message) => {
+  setMessage = (message:string) => {
     this.props.setMessage(message);
   };
 
-  setCurrentCategory = (newCategory) => {
+  setCurrentCategory = (newCategory:string) => {
     if (newCategory === this.props.currentCategory) return;
     this.props.setCurrentCategory(newCategory);
     this.props.emptyImages();
@@ -132,11 +160,6 @@ class MainPage extends React.Component {
                     height: 200,
                     alignSelf: 'center',
                     borderWidth: 1,
-                    borderBottomColor: '#000000',
-                    borderTopColor: '#000000',
-                    borderLeftColor: '#000000',
-                    borderRightColor: '#000000',
-                    borderStyle: 'solid',
                     marginTop: Platform.OS === 'android' ? 20 : 80,
                   }}
                 />

@@ -10,8 +10,9 @@ import {
   SET_SELECTED_IMAGE,
   GET_LAZYLOADED_IMAGES,
 } from './actionTypes';
+import {Action} from '../redux/actionCreators'
 
-export const reducer = (state = initialState, action) => {
+export const reducer = (state = initialState, action:Action) => {
   switch (action.type) {
     case SET_CURRENT_CATEGORY:
       return {

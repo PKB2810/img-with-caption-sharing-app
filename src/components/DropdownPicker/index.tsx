@@ -1,9 +1,19 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
 import React from 'react';
-import {StyleSheet, View, Text, Platform} from 'react-native';
-import {CustomPicker} from 'react-native-custom-picker';
+import {
+  StyleSheet, View, Text, Platform,
+} from 'react-native';
+import { CustomPicker } from 'react-native-custom-picker';
 import SvgUri from 'react-native-svg-uri';
 
+export interface Props{
+  options:any[],
+  defaultValue:any,
+  setCurrentCategory: (value:any) =>void
+}
 const downArrow = require('../../../public/images/down-arrow.svg');
+
 const styles = StyleSheet.create({
   ddstyle: {
     height: 50,
@@ -29,12 +39,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-class DropdownPicker extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  renderField = settings => {
-    const {selectedItem, defaultText, getLabel} = settings;
+class DropdownPicker extends React.Component <Props,{}>{
+  renderField = (settings:any) => {
+    const { selectedItem } = settings;
 
     return (
       <View style={styles.container}>
@@ -53,7 +60,7 @@ class DropdownPicker extends React.Component {
         defaultValue={this.props.defaultValue}
         fieldTemplate={this.renderField}
         style={styles.ddstyle}
-        onValueChange={itemValue => {
+        onValueChange={(itemValue) => {
           this.props.setCurrentCategory(itemValue);
         }}
       />

@@ -5,7 +5,12 @@ import {
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
-const SelectableImage = ({ setSelectedImage, isSelected, image }) => (
+export interface Props{
+  setSelectedImage:(image:any) => void,
+  isSelected:boolean,
+  image:any
+}
+const SelectableImage = ({ setSelectedImage, isSelected, image }:Props) => (
   <TouchableOpacity
     onPress={() => {
       setSelectedImage(image);
@@ -25,7 +30,6 @@ const SelectableImage = ({ setSelectedImage, isSelected, image }) => (
           height: 20,
           backgroundColor: 'white',
           borderColor: 'black',
-          borderStyle: 'solid',
           borderWidth: 2,
         }}
       />
@@ -53,7 +57,6 @@ const SelectableImage = ({ setSelectedImage, isSelected, image }) => (
         height: 150,
         borderWidth: 2,
         borderColor: '#d8d8d8',
-        borderStyle: 'solid',
         borderRadius: 15,
       }}
     />
