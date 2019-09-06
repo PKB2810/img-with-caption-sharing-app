@@ -13,7 +13,7 @@ import {
   ImageBackground,
   KeyboardAvoidingView,
   TouchableOpacity,
-  Platform
+  Platform,
 } from 'react-native';
 import Share from 'react-native-share';
 import { connect, DispatchProp } from 'react-redux';
@@ -193,7 +193,7 @@ class MainPage extends React.Component<Props, {}> {
     );
   }
 }
-export default connect(
+export default connect<IMainStateToProps,DispatchToProps,OwnProps,InitialState>(
   mapStateToProps,
   mapDispatchToProps,
 )(MainPage);
